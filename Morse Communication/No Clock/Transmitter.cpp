@@ -10,14 +10,12 @@ void dit(){
   digitalWrite(tx_pin, HIGH);
   delay(DIT);
   digitalWrite(tx_pin, LOW);
-  delay(DIT);
 }
 
 void dah(){
   digitalWrite(tx_pin, HIGH);
   delay(3 * DIT);
   digitalWrite(tx_pin, LOW);
-  delay(DIT);
 }
 
 void space(){
@@ -26,6 +24,10 @@ void space(){
 
 void pause(){
   delay(2 * DIT);
+}
+
+void recess() {
+  delay(DIT);
 }
 
 void setup() {
@@ -47,6 +49,7 @@ void setup() {
           dah();
           Serial.print("_");
         }
+       recess();
       }
       pause();
       Serial.print(" ");
@@ -54,5 +57,4 @@ void setup() {
   }
 }
 
-void loop() {
-}
+void loop() {}
