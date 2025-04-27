@@ -5,14 +5,14 @@
 
 volatile int rx_int = 0;
 volatile bool update_rx_bits = false;
-volatile int zeroes = 0;
+volatile int zero_count = 0;
 
 struct hash{
     char character;
     const char* morse_bits;
 };
 
-static hash hash_table[27] = {
+static hash hash_table[26] = {
     {'A', "10111000"}, 
     {'B', "111010101000"}, 
     {'C', "11101011101000"}, 
@@ -38,8 +38,7 @@ static hash hash_table[27] = {
     {'W', "101110111000"}, 
     {'X', "11101010111000"}, 
     {'Y', "1110101110111000"}, 
-    {'Z', "11101110101000"},
-    {' ', "000"}
+    {'Z', "11101110101000"}
 };
 
 char rx_bit_string[16] = "";
@@ -57,29 +56,28 @@ void lcd_setup(){
 void read_bit(){
     rx_int = digitalRead(RX_PIN);
     if (rx_int){
-        zeroes = 0;
+        zero_count = 0;
     }
     else{
-        zeroes++;
+        zero_count++;
     }
-    Serial.println(zeroes);
     update_rx_bits = true;
 }
 
 void compile_string(){
-    for (int j = 0; j < 27; ++j){
+    for (int j = 0; j < 26; ++j){
         if(!strcmp(rx_bit_string, hash_table[j].morse_bits)){
             lcd.clear();
             lcd.setCursor(0, 0);
             strncat(rx_message, (const char*)&hash_table[j].character, 1);
             lcd.print(rx_message);
             lcd.setCursor(0, 1);
-            j = 27;
+            j = 26;
         }
-        else if (j == 26){
+        else if (j == 25){
             lcd.clear();
             lcd.setCursor(0, 0);
-            strncat(rx_message, (const char*)&hash_table[j].character, 1);
+            strncat(rx_message, "?", 1);
             lcd.print(rx_message);
             lcd.setCursor(0, 1);            
         }
@@ -100,7 +98,6 @@ void setup(){
     pinMode(CLOCK_PIN, INPUT);
     pinMode(RX_PIN, INPUT);
     attachInterrupt(digitalPinToInterrupt(CLOCK_PIN), read_bit, FALLING);
-    Serial.begin(9600);
     lcd_setup();
 }
 
@@ -114,10 +111,10 @@ void loop(){
             lcd.print("0");
         }
 
-        if (zeroes == 3){
+        if (zero_count == 3){
             compile_string();
         }
-        if (zeroes == 7){
+        if (zero_count == 7){
             insert_space();
         }
         update_rx_bits = false;
