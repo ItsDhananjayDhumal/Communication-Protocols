@@ -1,8 +1,8 @@
-# Communication-Protocols
-Serial communication with clock completed
+# Communication Protocols
 
-Morse transmission with no clock completed
+The code is for arduino. Only needed library is LiquidCrystal.
 
-Ongoing clocked morse communication
+The maximum message size that can be sent is 16 characters, however it can be changed in code. 16 is chosen because LCD that is used can only disply 16 characters in one row.
 
-Code is for Arduino
+Serial communication between 2 arduino nano's completed.
+Morse communication between 2 arduino nano's completed.
