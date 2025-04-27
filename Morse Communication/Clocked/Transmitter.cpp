@@ -4,8 +4,8 @@
 // Recess is the pause between 2 characters of morse translation, for expmple the pause between ._
 // Pause is the pause between 2 characters of message, for example pause between C and A in CAT
 
-#define CLK_PIN 7
-#define TX_PIN 2
+#define CLK_PIN 2
+#define TX_PIN 7
 
 #define CLOCK 2         // clock frequency
 #define PAUSE 3         // clock cycles in a pause
