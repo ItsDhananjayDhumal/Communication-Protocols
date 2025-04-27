@@ -62,6 +62,7 @@ void read_bit(){
     else{
         zeroes++;
     }
+    Serial.println(zeroes);
     update_rx_bits = true;
 }
 
@@ -83,6 +84,16 @@ void compile_string(){
             lcd.setCursor(0, 1);            
         }
     }
+    strncpy(rx_bit_string, "", 1);
+}
+
+void insert_space(){
+    strncat(rx_message, " ", 1);
+    strncpy(rx_bit_string, "", 1);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(rx_message);
+    lcd.setCursor(0, 1);
 }
 
 void setup(){
@@ -105,7 +116,9 @@ void loop(){
 
         if (zeroes == 3){
             compile_string();
-            strncpy(rx_bit_string, "", 1);
+        }
+        if (zeroes == 7){
+            insert_space();
         }
         update_rx_bits = false;
     }
